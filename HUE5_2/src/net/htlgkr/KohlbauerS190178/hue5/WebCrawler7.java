@@ -1,4 +1,4 @@
-package net.eaustria.webcrawler;
+package net.htlgkr.KohlbauerS190178.hue5;
 
 import java.util.Collection;
 import java.util.Collections;

@@ -3,19 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.eaustria.webcrawler;
+package net.htlgkr.KohlbauerS190178.hue5;
 
 /**
  *
  * @author bmayr
  */
-import java.net.URL;
-import org.htmlparser.Parser;
-import org.htmlparser.filters.NodeClassFilter;
-import org.htmlparser.tags.LinkTag;
-import org.htmlparser.util.NodeList;
-import java.util.ArrayList;
-import java.util.List;
 
 public class LinkFinder implements Runnable {
 
@@ -28,6 +21,8 @@ public class LinkFinder implements Runnable {
 
     public LinkFinder(String url, ILinkHandler handler) {
         //ToDo: Implement Constructor
+        this.url=url;
+        this.linkHandler=handler;
     }
 
     @Override

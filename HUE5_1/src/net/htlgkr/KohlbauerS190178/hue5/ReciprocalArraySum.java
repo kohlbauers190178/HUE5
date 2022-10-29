@@ -1,17 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package net.eaustria;
+
+package net.htlgkr.KohlbauerS190178.hue5;
 
 /**
- *
  * @author bmayr
  */
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveAction;
 
@@ -35,10 +29,15 @@ public final class ReciprocalArraySum {
     protected static double seqArraySum(final double[] input) {
         double sum = 0;
 
+        for (double d : input) {
+            if (d != 0)
+                sum += ((double)1 / d);
+        }
+
+        return sum;
         // ToDo: Compute sum of reciprocals of array elements
-       
     }
-  
+
 
     /**
      * This class stub can be filled in to implement the body of each task
@@ -61,18 +60,19 @@ public final class ReciprocalArraySum {
          * Intermediate value produced by this task.
          */
         private double value;
-        
+
         private static int SEQUENTIAL_THRESHOLD = 50000;
 
         /**
          * Constructor.
+         *
          * @param setStartIndexInclusive Set the starting index to begin
-         *        parallel traversal at.
-         * @param setEndIndexExclusive Set ending index for parallel traversal.
-         * @param setInput Input values
+         *                               parallel traversal at.
+         * @param setEndIndexExclusive   Set ending index for parallel traversal.
+         * @param setInput               Input values
          */
         ReciprocalArraySumTask(final int setStartIndexInclusive,
-                final int setEndIndexExclusive, final double[] setInput) {
+                               final int setEndIndexExclusive, final double[] setInput) {
             this.startIndexInclusive = setStartIndexInclusive;
             this.endIndexExclusive = setEndIndexExclusive;
             this.input = setInput;
@@ -80,6 +80,7 @@ public final class ReciprocalArraySum {
 
         /**
          * Getter for the value produced by this task.
+         *
          * @return Value produced by this task
          */
         public double getValue() {
@@ -91,26 +92,42 @@ public final class ReciprocalArraySum {
             // TODO: Implement Thread forking on Threshold value. (If size of
             // array smaller than threshold: compute sequentially else, fork 
             // 2 new threads
-           
-            
+
+            int mid = startIndexInclusive + (endIndexExclusive - startIndexInclusive) / 2;
+
+            if (endIndexExclusive - startIndexInclusive < SEQUENTIAL_THRESHOLD) {
+                value += seqArraySum(Arrays.copyOfRange(input, startIndexInclusive,endIndexExclusive));
+            } else {
+
+                ReciprocalArraySumTask left = new ReciprocalArraySumTask(startIndexInclusive, mid, input);
+                ReciprocalArraySumTask right = new ReciprocalArraySumTask(mid, endIndexExclusive, input);
+
+                invokeAll(left, right);
+
+                value += left.value+ right.value;
+            }
         }
     }
-  
+
 
     /**
      * TODO: Extend the work you did to implement parArraySum to use a set
-     * number of tasks to compute the reciprocal array sum. 
+     * number of tasks to compute the reciprocal array sum.
      *
-     * @param input Input array
+     * @param input    Input array
      * @param numTasks The number of tasks to create
      * @return The sum of the reciprocals of the array input
      */
-    protected static double parManyTaskArraySum(final double[] input,
-            final int numTasks) {
-        double sum = 0;
-       // ToDo: Start Calculation with help of ForkJoinPool
-       
-       return sum;
+    protected static double parManyTaskArraySum(final double[] input, final int numTasks) {
+
+        // ToDo: Start Calculation with help of ForkJoinPool
+
+        ForkJoinPool pool = new ForkJoinPool(numTasks);
+        ReciprocalArraySumTask task = new ReciprocalArraySumTask(0, input.length, input);
+        pool.execute(task);
+        task.join();
+        pool.shutdown();
+        return task.value;
     }
 }
 

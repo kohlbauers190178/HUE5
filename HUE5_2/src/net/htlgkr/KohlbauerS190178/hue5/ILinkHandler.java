@@ -7,7 +7,7 @@
 // This is the Interface which LinkFinder (for Java6) and LinkFinderAction (for
 // Java7) will implement!
 
-package net.eaustria.webcrawler;
+package net.htlgkr.KohlbauerS190178.hue5;
 
 /**
  *

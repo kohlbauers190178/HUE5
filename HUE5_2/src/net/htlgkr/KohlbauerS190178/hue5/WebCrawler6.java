@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.eaustria.webcrawler;
+package net.htlgkr.KohlbauerS190178.hue5;
 
 import java.util.Collection;
 import java.util.Collections;

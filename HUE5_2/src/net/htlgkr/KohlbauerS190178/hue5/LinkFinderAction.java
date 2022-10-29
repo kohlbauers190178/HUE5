@@ -3,16 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.eaustria.webcrawler;
+package net.htlgkr.KohlbauerS190178.hue5;
 
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.RecursiveAction;
-import org.htmlparser.Parser;
-import org.htmlparser.filters.NodeClassFilter;
-import org.htmlparser.tags.LinkTag;
-import org.htmlparser.util.NodeList;
 
 /**
  *
